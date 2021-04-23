@@ -42,6 +42,8 @@ class EmojiTableViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         navigationController?.navigationBar.prefersLargeTitles = true
+        navigationItem.leftBarButtonItem = editButtonItem
+
     }
     
     override func numberOfSections(in tableView: UITableView) -> Int {
@@ -61,7 +63,20 @@ class EmojiTableViewController: UITableViewController {
         let emoji = emojis[indexPath.row]
         cell.textLabel?.text = "\(emoji.symbol) - \(emoji.name)"
         cell.detailTextLabel?.text = emoji.description
+        cell.showsReorderControl = true
         return cell
+    }
+    
+    override func tableView(_ tableView: UITableView, didSelectRowAt
+    indexPath: IndexPath) {
+        let emoji = emojis[indexPath.row]
+        print("\(emoji.symbol) \(indexPath)")
+    }
+    
+    override func tableView(_ tableView: UITableView, moveRowAt sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath) {
+        let movedEmoji = emojis.remove(at: sourceIndexPath.row)
+            emojis.insert(movedEmoji, at: destinationIndexPath.row)
+            tableView.reloadData()
     }
 
 }
